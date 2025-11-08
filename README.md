@@ -4,8 +4,7 @@ CAI3-1 (sencilla, fasi, para toda la familia)
 
 Preparación del entorno:
 
-sudo apt update
-sudo apt install uvicorn
+sudo apt update && sudo apt install uvicorn -y
 
 pip install fastapi uvicorn sqlalchemy pyotp qrcode pillow bcrypt requests
 
