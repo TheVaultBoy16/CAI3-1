@@ -8,13 +8,13 @@ import pyotp
 from . import models, schemas, utils
 from .database import SessionLocal, engine, Base
 
-# Crea las tablas
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
 
-# Dependencia para obtener una sesión de BD
+
 def get_db():
     db = SessionLocal()
     try:
@@ -42,12 +42,11 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    # Crear URI para escanear con Google Authenticator
+
     uri = pyotp.totp.TOTP(otp_secret).provisioning_uri(
-        name=user.email, issuer_name="MiAppSegura"
+        name=user.email, issuer_name="HospitalApp"
     )
 
-    # Generar QR
     qr = qrcode.make(uri)
     buf = BytesIO()
     qr.save(buf, format="PNG")
@@ -74,6 +73,6 @@ def verify_2fa(data: schemas.Verify2FA, db: Session = Depends(get_db)):
     decrypted_secret = utils.decrypt_secret(db_user.otp_secret_encrypted)
 
     if utils.verify_otp(decrypted_secret, data.code):
-        return {"msg": "✅ Verificación 2FA exitosa"}
+        return {"msg": "Verificación 2FA exitosa"}
     else:
         raise HTTPException(status_code=401, detail="Código 2FA inválido")

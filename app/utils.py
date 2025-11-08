@@ -4,8 +4,7 @@ from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# ⚙️ Genera una clave secreta para cifrar los OTP
-# (en producción, guarda esta clave en una variable de entorno segura)
+
 fernet_key = Fernet.generate_key()
 fernet = Fernet(fernet_key)
 
@@ -27,9 +26,7 @@ def decrypt_secret(encrypted_secret: str):
 
 
 def generate_otp_secret():
-    x = pyotp.random_base32()
-    print(x)
-    return x
+    return pyotp.random_base32()
 
 
 def verify_otp(secret: str, code: str):
