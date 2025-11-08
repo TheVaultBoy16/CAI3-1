@@ -27,7 +27,9 @@ def decrypt_secret(encrypted_secret: str):
 
 
 def generate_otp_secret():
-    return pyotp.random_base32()
+    x = pyotp.random_base32()
+    print(x)
+    return x
 
 
 def verify_otp(secret: str, code: str):
